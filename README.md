@@ -1,97 +1,171 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# TodoApp
 
-# Getting Started
+A cross-platform todo application built with React Native, featuring task management with descriptions, data persistence, and modern navigation.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## Features
 
-## Step 1: Start Metro
+- ✅ **Task Management**: Add, edit, delete, and mark tasks as complete
+- 📝 **Task Descriptions**: Add detailed descriptions to each task
+- 💾 **Data Persistence**: Tasks are automatically saved using AsyncStorage
+- 🧭 **Navigation**: Navigate between home and task detail pages
+- 📱 **Cross-Platform**: Runs on both iOS and Android
+- 🎨 **Linear Gradients**: Beautiful UI with gradient backgrounds
+- 🔄 **Auto-linking**: Modern React Native with automatic native dependency linking
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## Technologies Used
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+- **React Native 0.83.1**
+- **TypeScript**
+- **React Navigation** (Native Stack Navigator)
+- **AsyncStorage** for data persistence
+- **Linear Gradient** for UI styling
+- **Safe Area Context** for proper screen rendering
 
-```sh
-# Using npm
+## Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+### Required for both platforms:
+- **Node.js** (version 18 or higher)
+- **npm** or **Yarn**
+- **React Native CLI**: `npm install -g @react-native-community/cli`
+
+### For iOS development:
+- **macOS** (required for iOS development)
+- **Xcode** (latest version from App Store)
+- **CocoaPods**: `sudo gem install cocoapods`
+- **iOS Simulator** (included with Xcode)
+
+### For Android development:
+- **Android Studio** with Android SDK
+- **Android Virtual Device (AVD)** configured
+- **Environment variables** set:
+  ```bash
+  export ANDROID_HOME=$HOME/Library/Android/sdk
+  export PATH=$PATH:$ANDROID_HOME/emulator
+  export PATH=$PATH:$ANDROID_HOME/platform-tools
+  ```
+
+> **Note**: Complete the [React Native environment setup guide](https://reactnative.dev/docs/set-up-your-environment) for detailed instructions.
+
+## Getting Started
+
+### 1. Clone and Install Dependencies
+
+```bash
+# Clone the repository
+git clone <repository-url>
+cd TodoApp
+
+# Install JavaScript dependencies
+npm install
+
+# Install iOS native dependencies (macOS only)
+cd ios && pod install && cd ..
+```
+
+### 2. Start Metro Bundler
+
+Metro is the JavaScript build tool for React Native. Start it in a terminal window:
+
+```bash
 npm start
-
-# OR using Yarn
-yarn start
 ```
 
-## Step 2: Build and run your app
+Keep this terminal open while developing.
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+### 3. Run the Application
 
-### Android
+Open a **new terminal window** and run one of the following commands:
 
-```sh
-# Using npm
-npm run android
+#### For iOS (macOS only):
 
-# OR using Yarn
-yarn android
-```
-
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
+```bash
 npm run ios
-
-# OR using Yarn
-yarn ios
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+**First-time setup:**
+If this is your first time running the project, iOS dependencies are automatically installed via CocoaPods.
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+**Troubleshooting iOS:**
+- If you encounter pod-related errors, run: `cd ios && pod install && cd ..`
+- Ensure Xcode is installed and updated
+- For M1/M2 Macs, use: `sudo arch -x86_64 gem install ffi && cd ios && arch -x86_64 pod install`
 
-## Step 3: Modify your app
+#### For Android:
 
-Now that you have successfully run the app, let's make changes!
+**First, start an Android emulator:**
+1. Open Android Studio
+2. Go to **Tools → AVD Manager**
+3. Start an existing virtual device or create a new one
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+**Or use command line:**
+```bash
+# List available emulators
+emulator -list-avds
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+# Start an emulator
+emulator -avd <your-device-name>
+```
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+**Then run the app:**
+```bash
+npm run android
+```
 
-## Congratulations! :tada:
+**Troubleshooting Android:**
+- Ensure Android Studio and SDK are properly installed
+- Check that `ANDROID_HOME` environment variable is set
+- First Android build may take 15-30 minutes
+- If you get "No space left on device", free up disk space and run: `cd android && ./gradlew clean && cd ..`
 
-You've successfully run and modified your React Native App. :partying_face:
+### 4. Development
 
-### Now what?
+- **Hot Reloading**: Save any file to see changes instantly
+- **Debug Menu**: 
+  - iOS: Press `Cmd + D` in simulator
+  - Android: Press `Cmd + M` or shake the device
+- **Element Inspector**: Press `Cmd + D` and select "Toggle Element Inspector"
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+## How to Use the App
 
-# Troubleshooting
+1. **Add Tasks**: Type in the input field and press enter or the add button
+2. **View Task Details**: Tap on any task to see its detail page
+3. **Edit Task Name**: In the task list, tap "Edit" to modify the task title
+4. **Add Description**: In the task detail page, tap "Add Description" to add notes
+5. **Mark Complete**: Tap the checkbox to mark tasks as done/undone
+6. **Delete Tasks**: Tap "Delete" to remove a task permanently
+7. **Automatic Save**: All changes are automatically saved to device storage
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+## Project Structure
 
-# Learn More
+```
+TodoApp/
+├── src/
+│   ├── components/
+│   │   ├── Header.tsx          # App header with task counter
+│   │   ├── ItemWrapper.tsx     # Task list item container with gradients
+│   │   ├── TaskItem.tsx        # Individual task component
+│   │   ├── TasksList.tsx       # Task list container
+│   │   └── TodoInput.tsx       # Task input component
+│   └── pages/
+│       ├── Details.tsx         # Task details page
+│       └── Home.tsx            # Main todo list page
+├── App.tsx                     # Main app component with navigation
+├── android/                    # Android-specific files
+├── ios/                        # iOS-specific files
+└── README.md                   # This file
+```
 
-To learn more about React Native, take a look at the following resources:
+## Available Scripts
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+- `npm start`: Start Metro bundler
+- `npm run android`: Build and run Android app
+- `npm run ios`: Build and run iOS app
+
+## Resources
+
+- [React Native Documentation](https://reactnative.dev) - Learn more about React Native
+- [React Navigation Docs](https://reactnavigation.org/) - Navigation library documentation
+- [AsyncStorage Docs](https://react-native-async-storage.github.io/async-storage/) - Local storage documentation
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/) - TypeScript documentation
