@@ -19,6 +19,7 @@ interface TaskItemProps {
   toggleTaskDone: (id: number) => void;
   removeTask: (id: number) => void;
   updateTaskName: (id: number, newTaskName: string) => void;
+  updateTaskDescription: (id: number, newDescription: string) => void;
   navigation: NavigationProp;
 }
 
@@ -28,6 +29,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({
   toggleTaskDone,
   removeTask,
   updateTaskName,
+  updateTaskDescription,
   navigation,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -79,7 +81,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({
           testID={`button-${index}`}
           activeOpacity={0.7}
           style={styles.taskButton}
-          onPress={() => navigation.navigate('Details', { task })}
+          onPress={() => navigation.navigate('Details', { task, updateTaskDescription })}
         >
           <TouchableOpacity
             testID={`marker-${index}`}
@@ -88,14 +90,20 @@ export const TaskItem: React.FC<TaskItemProps> = ({
           >
             <Text>{task.done ? "✓" : ""}</Text>
           </TouchableOpacity>
-          <TextInput
-            ref={textInputRef}
-            style={task.done ? styles.taskTextDone : styles.taskText}
-            editable={isEditing}
-            onChangeText={setEditingTaskText}
-            value={editingTaskText}
-            onSubmitEditing={handleSubmitEditing}
-          />
+          
+          <View style={styles.taskContent}>
+            <TextInput
+              ref={textInputRef}
+              style={task.done ? styles.taskTextDone : styles.taskText}
+              editable={isEditing}
+              onChangeText={setEditingTaskText}
+              value={editingTaskText}
+              onSubmitEditing={handleSubmitEditing}
+            />
+            <Text style={styles.taskDescription}>
+              {task.description || 'No description'}
+            </Text>
+          </View>
         </TouchableOpacity>
       </View>
 
@@ -137,7 +145,10 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     borderRadius: 4,
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-start",
+  },
+  taskContent: {
+    flexDirection: "column",
   },
   taskMarker: {
     height: 16,
@@ -146,6 +157,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#B2B2B2",
     marginRight: 15,
+    marginTop: 2,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -153,12 +165,20 @@ const styles = StyleSheet.create({
     color: "#666",
     fontFamily: "Inter-Medium",
   },
+  taskDescription: {
+    color: "#999",
+    fontFamily: "Inter-Medium",
+    fontSize: 14,
+    marginTop: 4,
+    maxWidth: 150,
+  },
   taskMarkerDone: {
     height: 16,
     width: 16,
     borderRadius: 4,
     backgroundColor: "#1DB863",
     marginRight: 15,
+    marginTop: 2,
     alignItems: "center",
     justifyContent: "center",
   },

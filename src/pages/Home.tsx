@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Alert, StyleSheet, View } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../App';
 
@@ -7,10 +8,40 @@ import { Header } from "../components/Header";
 import { Task, TasksList } from "../components/TasksList";
 import { TodoInput } from "../components/TodoInput";
 
+const STORAGE_KEY = '@TodoApp:tasks';
+
 type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 export function Home({ navigation }: HomeScreenProps) {
   const [tasks, setTasks] = useState<Task[]>([]);
+
+  useEffect(() => {
+    loadTasks();
+  }, []);
+
+  useEffect(() => {
+    saveTasks(tasks);
+  }, [tasks]);
+
+  const loadTasks = async () => {
+    console.log('load task');
+    try {
+      const savedTasks = await AsyncStorage.getItem(STORAGE_KEY);
+      if (savedTasks !== null) {
+        setTasks(JSON.parse(savedTasks));
+      }
+    } catch (error) {
+      console.error('Error loading tasks:', error);
+    }
+  };
+
+  const saveTasks = async (tasksToSave: Task[]) => {
+    try {
+      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(tasksToSave));
+    } catch (error) {
+      console.error('Error saving tasks:', error);
+    }
+  };
 
   function handleAddTask(newTaskTitle: string) {
     const hasTaskWithThisName =
@@ -28,6 +59,7 @@ export function Home({ navigation }: HomeScreenProps) {
           id: new Date().getTime(),
           title: newTaskTitle,
           done: false,
+          description: '',
         },
       ]);
     }
@@ -68,6 +100,21 @@ export function Home({ navigation }: HomeScreenProps) {
     setTasks(newTasks);
   }
 
+  function handleUpdateTaskDescription(id: number, newDescription: string) {
+    const newTasks = tasks.map((task) => {
+      if (task.id === id) {
+        return {
+          ...task,
+          description: newDescription,
+        };
+      }
+
+      return task;
+    });
+
+    setTasks(newTasks);
+  }
+
   return (
     <View style={styles.container}>
         <Header tasksCounter={tasks.length} />
@@ -79,6 +126,7 @@ export function Home({ navigation }: HomeScreenProps) {
             toggleTaskDone={handleToggleTaskDone}
             removeTask={handleRemoveTask}
             updateTaskName={handleUpdateTaskName}
+            updateTaskDescription={handleUpdateTaskDescription}
             navigation={navigation}
         />
     </View>

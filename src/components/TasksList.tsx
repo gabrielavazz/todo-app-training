@@ -9,6 +9,7 @@ export interface Task {
   id: number;
   title: string;
   done: boolean;
+  description?: string;
 }
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
@@ -18,6 +19,7 @@ interface TasksListProps {
   toggleTaskDone: (id: number) => void;
   removeTask: (id: number) => void;
   updateTaskName: (id: number, newTaskName: string) => void;
+  updateTaskDescription: (id: number, newDescription: string) => void;
   navigation: NavigationProp;
 }
 
@@ -26,6 +28,7 @@ export function TasksList({
   toggleTaskDone,
   removeTask,
   updateTaskName,
+  updateTaskDescription,
   navigation,
 }: TasksListProps) {
   return (
@@ -43,6 +46,7 @@ export function TasksList({
               toggleTaskDone={toggleTaskDone}
               removeTask={removeTask}
               updateTaskName={updateTaskName}
+              updateTaskDescription={updateTaskDescription}
               navigation={navigation}
             />
           </ItemWrapper>

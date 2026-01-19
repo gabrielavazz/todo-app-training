@@ -8,7 +8,10 @@ import { Details } from './src/pages/Details';
 
 export type RootStackParamList = {
   Home: undefined;
-  Details: { task: { id: number; title: string; done: boolean } };
+  Details: { 
+    task: { id: number; title: string; done: boolean; description?: string };
+    updateTaskDescription?: (id: number, description: string) => void;
+  };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
